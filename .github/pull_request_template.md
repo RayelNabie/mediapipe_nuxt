@@ -6,7 +6,6 @@ Please provide a concise overview of the changes you're proposing in this pull r
 
 Please check the following items as you complete them:
 
-- [ ] I have linked the relevant user story (if applicable).
 - [ ] I have added tests to demonstrate the effectiveness of my fix or the functionality of my new feature.
 - [ ] I have personally reviewed and tested my changes prior to assigning this pull request.
 - [ ] I have included any necessary documentation updates to explain my changes (if applicable).
