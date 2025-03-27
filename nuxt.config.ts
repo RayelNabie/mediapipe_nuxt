@@ -12,5 +12,14 @@ export default defineNuxtConfig({
     '@nuxt/scripts',
     '@nuxt/test-utils',
     '@nuxt/ui'
-  ]
+  ],
+
+  eslint: {
+    config: {
+      stylistic: {
+        indent: 'tab',
+        semi: true,
+      }
+    }
+  }
 })
