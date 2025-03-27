@@ -40,6 +40,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Approve native builds (better-sqlite3, esbuild, etc.)
+        run: pnpm dlx pnpm-approve-builds --yes
+
       - name: Run ESLint
         run: pnpm run lint
 
