@@ -24,5 +24,6 @@ jobs:
     needs: build
 
   deploy:
+    if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/deploy.yml
     needs: generate
