@@ -33,6 +33,10 @@ jobs:
         with:
           run_install: true
 
+
+      - name: Rebuild better-sqlite3 with node-gyp
+        run: pnpm rebuild better-sqlite3
+
       - name: Setup Node.js
         uses: actions/setup-node@v4.3.0
         with:
