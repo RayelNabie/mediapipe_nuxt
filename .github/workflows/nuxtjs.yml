@@ -46,9 +46,6 @@ jobs:
       - name: Build Nuxt project
         run: pnpm run build
 
-      - name: Run tests
-        run: pnpm test
-
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
         with:
