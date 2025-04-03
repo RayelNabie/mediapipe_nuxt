@@ -1,11 +1,15 @@
 <template>
   <div>
-    <video ref="videoRef" />
-    <button v-if="!isRunning" @click="startWebcam">
-      Start webcam
-    </button>
-    <button v-if="isRunning" @click="stopWebcam">
-      Stop webcam
+    <video
+      ref="videoElement"
+      autoplay
+      muted
+      playsinline
+      style="width: 100%;
+      max-width: 600px"
+    />
+    <button @click="isWebcamActive ? stopWebcam() : startWebcam()">
+      {{ isWebcamActive ? 'Stop webcam' : 'Start webcam' }}
     </button>
   </div>
 </template>
@@ -13,27 +17,27 @@
 <script setup lang="ts">
 import { ref, onBeforeUnmount } from 'vue';
 
-const videoRef = ref<HTMLVideoElement | null>(null);
+const videoElement = ref<HTMLVideoElement | null>(null);
 const emit = defineEmits<{
   (event: 'frame', video: HTMLVideoElement): void;
 }>();
 
-const isRunning = ref(false);
-const requestAnimationFrameId = ref<number | null>(null);
-const stream = ref<MediaStream | null>(null);
+const isWebcamActive = ref(false);
+const frameLoopId = ref<number | null>(null);
+const mediaStream = ref<MediaStream | null>(null);
 
 const startWebcam = async () => {
   try {
-    stream.value = await navigator.mediaDevices.getUserMedia({ video: true });
+    mediaStream.value = await navigator.mediaDevices.getUserMedia({ video: true });
 
-    const video = videoRef.value;
+    const video = videoElement.value;
     if (!video) return console.warn('Video element not available.');
 
-    video.srcObject = stream.value;
+    video.srcObject = mediaStream.value;
 
     video.onloadeddata = () => {
-      isRunning.value = true;
-      loopFrames();
+      isWebcamActive.value = true;
+      emitVideoFrames();
     };
   }
   catch (err) {
@@ -41,22 +45,22 @@ const startWebcam = async () => {
   }
 };
 
-const loopFrames = () => {
-  if (!videoRef.value) return;
-  emit('frame', videoRef.value);
-  requestAnimationFrameId.value = requestAnimationFrame(loopFrames);
-};
-
 const stopWebcam = () => {
-  if (requestAnimationFrameId.value) cancelAnimationFrame(requestAnimationFrameId.value);
-  requestAnimationFrameId.value = null;
+  if (frameLoopId.value) cancelAnimationFrame(frameLoopId.value);
+  frameLoopId.value = null;
 
-  if (stream.value) {
-    stream.value.getTracks().forEach(track => track.stop());
-    stream.value = null;
+  if (mediaStream.value) {
+    mediaStream.value.getTracks().forEach(track => track.stop());
+    mediaStream.value = null;
   }
 
-  isRunning.value = false;
+  isWebcamActive.value = false;
+};
+
+const emitVideoFrames = () => {
+  if (!videoElement.value) return;
+  emit('frame', videoElement.value);
+  frameLoopId.value = requestAnimationFrame(emitVideoFrames);
 };
 
 onBeforeUnmount(stopWebcam);
