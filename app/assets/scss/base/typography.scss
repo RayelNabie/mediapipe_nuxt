@@ -1,0 +1,103 @@
+@use "../helpers" as *;
+
+body {
+  font-family: $base-font;
+  line-height: 1.2;
+  font-size: to-rem(16);
+
+  @include respond-min($tablet) {
+    font-size: to-rem(22);
+  }
+}
+
+.small {
+  font-size: to-rem(14);
+
+  @include respond-min($tablet) {
+    font-size: to-rem(18);
+  }
+}
+
+button {
+  font-family: $heading-font;
+  line-height: 1.4;
+  font-size: to-rem(14);
+}
+
+.tag {
+  font-family: $heading-font;
+  line-height: 1.4;
+  letter-spacing: 2px;
+  font-size: to-rem(14);
+}
+
+.heading,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $heading-font;
+  text-transform: uppercase;
+  font-weight: 400;
+
+  &--highlighted {
+    color: $gray;
+    font-style: normal;
+  }
+}
+
+.heading--h1,
+h1 {
+  font-size: to-rem(48);
+
+  @include respond-min($tablet) {
+    font-size: to-rem(120);
+  }
+}
+
+.heading--h2,
+h2 {
+  font-size: to-rem(40);
+
+  @include respond-min($tablet) {
+    font-size: to-rem(90);
+  }
+}
+
+.heading--h3,
+h3 {
+  font-size: to-rem(26);
+
+  @include respond-min($tablet) {
+    font-size: to-rem(56);
+  }
+}
+
+.heading--h4,
+h4 {
+  font-size: to-rem(18);
+
+  @include respond-min($tablet) {
+    font-size: to-rem(42);
+  }
+}
+
+.heading--h5,
+h5 {
+  font-size: to-rem(16);
+
+  @include respond-min($tablet) {
+    font-size: to-rem(36);
+  }
+}
+
+.heading--h6,
+h6 {
+  font-size: to-rem(14);
+
+  @include respond-min($tablet) {
+    font-size: to-rem(28);
+  }
+}
