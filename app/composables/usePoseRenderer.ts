@@ -1,65 +1,64 @@
-import { FilesetResolver, PoseLandmarker, DrawingUtils } from '@mediapipe/tasks-vision';
-import type { NormalizedLandmark } from '@mediapipe/tasks-vision';
+import {
+  type NormalizedLandmark,
+  FilesetResolver,
+  HandLandmarker,
+  DrawingUtils,
+  type HandLandmarkerResult,
+} from '@mediapipe/tasks-vision';
+import type { LandmarkStyles } from '@/types/MediapipeLandmark';
 
-export function usePoseRenderer(
-  videoElement: Ref<HTMLVideoElement | null>,
-  canvasElement: Ref<HTMLCanvasElement | null>,
-  onPoseDetected?: (landmarks: NormalizedLandmark[]) => void,
-) {
-  const poseModel = ref<PoseLandmarker | null>(null);
-  const drawingUtils = ref<DrawingUtils | null>(null);
-  const isRunning = ref(false);
+export async function usePoseRenderer(
+  videoEl: HTMLVideoElement,
+  canvasEl: HTMLCanvasElement,
+  emit: (data: { type: 'hand'; landmarks: NormalizedLandmark[][] }) => void,
+  style: LandmarkStyles = {},
+): Promise<void> {
+  try {
+    videoEl.srcObject = await navigator.mediaDevices.getUserMedia({ video: true });
+    await videoEl.play();
 
-  const context2D = computed(() => canvasElement.value?.getContext('2d') ?? null);
-
-  const loadModel = async () => {
     const vision = await FilesetResolver.forVisionTasks(
-      'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/wasm',
+      'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.21/wasm',
     );
 
-    poseModel.value = await PoseLandmarker.createFromOptions(vision, {
+    const detector: HandLandmarker = await HandLandmarker.createFromOptions(vision, {
       baseOptions: {
         modelAssetPath:
-          'https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task',
+          'https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task',
         delegate: 'GPU',
       },
       runningMode: 'VIDEO',
+      numHands: 2,
     });
-  };
 
-  const render = async () => {
-    const ctx = context2D.value;
-    const video = videoElement.value;
-    const model = poseModel.value;
-    const utils = drawingUtils.value;
+    const ctx = canvasEl?.getContext('2d') ?? null;
+    const drawUtils = ctx ? new DrawingUtils(ctx) : null;
 
-    if (!ctx || !video || !model || !utils || !isRunning.value) return;
+    const render = (landmarks: NormalizedLandmark[][] = []) => {
+      if (!ctx || !drawUtils) return;
+      ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
+      for (const hand of landmarks) {
+        drawUtils.drawConnectors(hand, HandLandmarker.HAND_CONNECTIONS, {
+          color: style.lineColor ?? '#0F0',
+          lineWidth: style.lineWidth ?? 5,
+        });
+        drawUtils.drawLandmarks(hand, {
+          color: style.pointColor ?? '#F00',
+          radius: style.pointRadius ?? 4,
+        });
+      }
+    };
 
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    ctx.drawImage(video, 0, 0, ctx.canvas.width, ctx.canvas.height);
+    const detectLoop = async (): Promise<void> => {
+      const result: HandLandmarkerResult = await detector.detectForVideo(videoEl, performance.now());
+      emit({ type: 'hand', landmarks: result.landmarks ?? [] });
+      render(result.landmarks);
+      requestAnimationFrame(detectLoop);
+    };
 
-    const result = await model.detectForVideo(video, performance.now());
-
-    if (result.landmarks?.[0]) {
-      utils.drawConnectors(result.landmarks[0], PoseLandmarker.POSE_CONNECTIONS, { color: '#00F' });
-      utils.drawLandmarks(result.landmarks[0], { color: '#0FF', radius: 2 });
-      onPoseDetected?.(result.landmarks[0]);
-    }
-
-    requestAnimationFrame(render);
-  };
-
-  watch(videoElement, async (video) => {
-    if (!video || !context2D.value) return;
-
-    await loadModel();
-    drawingUtils.value = new DrawingUtils(context2D.value);
-    isRunning.value = true;
-
-    render();
-  });
-
-  onBeforeUnmount(() => {
-    isRunning.value = false;
-  });
+    detectLoop();
+  }
+  catch (err) {
+    console.error('PoseRenderer error:', err);
+  }
 }

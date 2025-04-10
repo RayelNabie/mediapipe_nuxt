@@ -9,12 +9,11 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "format": "eslint . --fix",
     "prepare": "husky"
   },
   "dependencies": {
-    "@mediapipe/holistic": "^0.5.1675471629",
-    "@mediapipe/tasks-vision": "0.10.22-rc.20250304",
+    "@mediapipe/tasks-vision": "0.10.21",
     "@nuxt/content": "3.4.0",
     "@nuxt/eslint": "1.2.0",
     "@nuxt/fonts": "0.11.0",
@@ -38,7 +37,8 @@
     "husky": "^9.1.7",
     "sass": "^1.86.0",
     "typescript": "^5.8.2",
-    "typescript-eslint": "^8.28.0"
+    "typescript-eslint": "^8.28.0",
+    "vue-tsc": "^2.2.8"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
