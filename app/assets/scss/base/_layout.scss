@@ -1,0 +1,15 @@
+@use "../helpers" as *;
+
+.container {
+  max-width: $content-width;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.section {
+  padding: 4rem 0;
+
+  @include respond-max($tablet) {
+    padding: 2rem 0;
+  }
+}

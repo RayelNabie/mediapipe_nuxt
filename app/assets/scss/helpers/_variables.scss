@@ -1,10 +1,9 @@
 @use "../helpers/colors" as *;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Merriweather:wght@700&display=swap');
 
-// fonts
-$base-font: Arial, Helvetica, sans-serif;
-$heading-font: Chainprinter, sans-serif;
+$base-font: 'Roboto', Arial, Helvetica, sans-serif;
+$heading-font: 'Merriweather', serif;
 
-// breakpoints
 $navigation-breakpoint-mobile: 489px;
 $mobile: 550px;
 $tablet: 768px;
@@ -13,15 +12,12 @@ $navigation-breakpoint-desktop: 1125px;
 $desktop-xl: 1400px;
 $desktop-xxl: 1800px;
 
-// margins and paddings
 $negative-packaging-margin: 100px;
 $base-background-padding: 90px;
 
-// widths
 $content-width-small: 1120px;
 $content-width: 1440px;
 
-// z-index
 $z-index: (
   negative: -1,
   zero: 0,
@@ -33,7 +29,3 @@ $z-index: (
 
 $header-height-mobile: 82px;
 $header-height-desktop: 126px;
-
-// shadows
-$fries-shadow: drop-shadow(5px 20px 10px rgba($black, 0.4));
-$package-shadow: drop-shadow(10px 40px 25px rgba($black, 0.4));

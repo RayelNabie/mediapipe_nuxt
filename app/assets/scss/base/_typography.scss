@@ -1,0 +1,36 @@
+@use "../helpers" as *;
+
+
+body {
+  font-family: $base-font;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: $dark-gray;
+  background-color: $light;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $heading-font;
+  font-weight: bold;
+  color: $dark-gray;
+}
+
+h1 {
+  font-size: 3rem;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  font-size: 2.25rem;
+}
+
+a {
+  color: $accent;
+  text-decoration: none;
+  transition: color 0.3s;
+
+  &:hover {
+    color: $secondary;
+  }
+}
