@@ -1,56 +1,55 @@
 <template>
   <section class="mediapipe">
-    <!-- Card 1: Pose Detection -->
     <Card class="mediapipe__card">
-      <CardHeader>
-        <Text h1>
-          Pose Detection
-        </Text>
-        <Text h2>
-          Live WebCam Feed
-        </Text>
-      </CardHeader>
-      <CardBody>
-        <MediapipeWebcam @video-ready="poseData = $event" />
-      </CardBody>
-      <CardFooter>
-        <Button color="primary" @click="onActionClick">
-          Start
-        </Button>
-      </CardFooter>
-    </Card>
-
-    <!-- Card 2: Hand Tracking -->
-    <Card class="mediapipe__card">
-      <CardHeader>
-        <Text h1>
-          Hand Tracking
-        </Text>
-        <Text h2>
-          Tracking Your Hand Movements
-        </Text>
-      </CardHeader>
-      <CardBody>
+      <template #header>
+        <Button
+          label="Start Recording" icon="pi pi-play"
+          color="primary" :disabled="isRecording"
+          variant="outlined"
+          raised @click="startRecording"
+        />
+        <Button
+          label="Stop Recording" icon="pi pi-stop"
+          color="secondary" :disabled="!isRecording"
+          variant="outlined"
+          @click="stopRecording"
+        />
+      </template>
+      <template #content>
+        <BaseWebcam @video-ready="onPoseDataReceived" />
         <MediapipeHandDisplay :landmark-data="poseData" />
-      </CardBody>
-      <CardFooter>
-        <Button color="secondary" @click="onActionClick">
-          Track Hands
-        </Button>
-      </CardFooter>
+      </template>
     </Card>
-
-    <!-- Additional Cards can be added below -->
   </section>
 </template>
 
 <script lang="ts" setup>
-import type { LandmarkMap } from '~/types/MediapipeLandmark';
+import type { LandmarkMap } from '@/types/MediapipeLandmark';
 
 const poseData = ref<LandmarkMap>({ hand: [], pose: [], face: [] });
+const isRecording = ref(false);
+const recordingTimer = ref<ReturnType<typeof setTimeout> | null>(null);
+const { savePoseData } = usePoseStorage();
 
-const onActionClick = () => {
-  console.log('Button clicked');
+// Function to handle received pose data
+const onPoseDataReceived = (newPoseData: LandmarkMap) => {
+  if (isRecording.value) poseData.value = newPoseData;
+};
+
+// Start recording function (5 seconds)
+const startRecording = () => {
+  isRecording.value = true;
+  recordingTimer.value = setTimeout(() => {
+    isRecording.value = false;
+    savePoseData(poseData.value, `User Pose ${new Date().toISOString()}`);
+    alert('Pose recording saved!');
+  }, 5000);
+};
+
+// Stop recording function
+const stopRecording = () => {
+  if (recordingTimer.value) clearTimeout(recordingTimer.value);
+  isRecording.value = false;
 };
 </script>
 
@@ -58,17 +57,17 @@ const onActionClick = () => {
 .mediapipe {
   display: grid;
   gap: 2rem;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: 1fr;
   margin-top: 3rem;
   padding: 2rem;
 
-  &__card {
+  .p-card {
     background-color: $white;
     border-radius: 1rem;
     box-shadow: 0 8px 20px rgba($dark-gray, 0.1);
     padding: 1.5rem;
 
-    &__header {
+    .p-card-header {
       background-color: $primary;
       color: $white;
       padding: 1rem;
@@ -76,25 +75,21 @@ const onActionClick = () => {
       margin-bottom: 1rem;
     }
 
-    &__footer {
+    .p-card-footer {
       padding: 1rem;
       text-align: right;
     }
-  }
 
-  /* Styling for text headers */
-  h1 {
-    font-size: 2rem;
-    color: $dark-gray;
-  }
+    h1 {
+      font-size: 2rem;
+      color: $dark-gray;
+    }
 
-  h2 {
-    font-size: 1.25rem;
-    color: $dark-gray;
-  }
-}
+    h2 {
+      font-size: 1.25rem;
+      color: $dark-gray;
+    }
 
-button {
-  margin-top: 1rem;
+  }
 }
 </style>

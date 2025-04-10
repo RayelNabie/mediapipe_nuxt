@@ -13,3 +13,14 @@ export type LandmarkMap = {
   face: NormalizedLandmark[][];
   [key: string]: NormalizedLandmark[][];
 };
+
+export interface PoseData {
+  label: string;
+  data: {
+    x: number;
+    y: number;
+    z: number;
+    visibility: number;
+  }[];
+  timestamp: string;
+}
