@@ -15,8 +15,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onBeforeUnmount } from 'vue';
-
 const videoElement = ref<HTMLVideoElement | null>(null);
 const emit = defineEmits<{
   (event: 'frame', video: HTMLVideoElement): void;
