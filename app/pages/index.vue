@@ -1,13 +1,9 @@
 <template>
-  <section>
+  <main>
     <NuxtLink to="/mediapipe">Go To MediaPipe</NuxtLink>
-  </section>
+  </main>
 </template>
 
 <script setup lang="ts">
 
 </script>
-
-<style>
-
-</style>

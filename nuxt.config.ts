@@ -10,8 +10,6 @@ export default defineNuxtConfig({
 
   srcDir: 'app/',
 
-  css: ['@/assets/scss/app.scss'],
-
   modules: [
     '@nuxt/content',
     '@nuxt/eslint',
@@ -36,19 +34,17 @@ export default defineNuxtConfig({
       },
     },
   },
+
+  css: ['@/assets/scss/app.scss'],
+
   vite: {
     css: {
       preprocessorOptions: {
         scss: {
           additionalData: `
-          @use '@/assets/scss/helpers' as *;
-          @use 'sass:math';
-          @use 'sass:map';
-          @use "sass:list";
-          @use "sass:color";
+          @use "@/assets/scss/helpers" as *;
+          @use "sass:map";
           `,
-          quietDeps: true,
-          api: 'modern',
         },
       },
     },
