@@ -64,11 +64,11 @@ importers:
         specifier: ^9.24.0
         version: 9.24.0
       eslint:
-        specifier: ^9.24.0
-        version: 9.24.0(jiti@2.4.2)
-      prettier:
-        specifier: ^3.5.3
-        version: 3.5.3
+        specifier: ^9.23.0
+        version: 9.23.0(jiti@2.4.2)
+      husky:
+        specifier: ^9.1.7
+        version: 9.1.7
       sass:
         specifier: ^1.86.3
         version: 1.86.3
@@ -2798,6 +2798,11 @@ packages:
     resolution: {integrity: sha512-AXcZb6vzzrFAUE61HnN4mpLqd/cSIwNQjtNWR0euPm6y0iqx3G4gOXaIDdtdDwZmhwe82LA6+zinmW4UBWVePQ==}
     engines: {node: '>=16.17.0'}
 
+  husky@9.1.7:
+    resolution: {integrity: sha512-5gs5ytaNjBrh5Ow3zrvdUUY+0VxIuWVL4i9irt6friV+BqdCfmV11CQTWMiBYWHbXhco+J1kHfTOUkePhCDvMA==}
+    engines: {node: '>=18'}
+    hasBin: true
+
   ieee754@1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
 
@@ -5513,6 +5518,7 @@ snapshots:
   '@mediapipe/tasks-vision@0.10.22-rc.20250304': {}
 
   '@napi-rs/wasm-runtime@0.2.8':
+
     dependencies:
       '@emnapi/core': 1.4.0
       '@emnapi/runtime': 1.4.0
@@ -8318,6 +8324,8 @@ snapshots:
   httpxy@0.1.7: {}
 
   human-signals@5.0.0: {}
+
+  husky@9.1.7: {}
 
   ieee754@1.2.1: {}
 

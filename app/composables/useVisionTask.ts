@@ -1,7 +1,4 @@
-import {
-  FilesetResolver,
-  HandLandmarker,
-} from '@mediapipe/tasks-vision';
+import { FilesetResolver, HandLandmarker } from '@mediapipe/tasks-vision';
 
 export async function useVisionTask(type: 'hand') {
   const vision = await FilesetResolver.forVisionTasks(

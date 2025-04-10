@@ -1,5 +1,3 @@
-// composables/usePoseRenderer.ts
-import { ref, computed, watch, onBeforeUnmount } from 'vue';
 import { FilesetResolver, PoseLandmarker, DrawingUtils } from '@mediapipe/tasks-vision';
 import type { NormalizedLandmark } from '@mediapipe/tasks-vision';
 

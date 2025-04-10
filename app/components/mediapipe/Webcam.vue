@@ -11,8 +11,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onBeforeUnmount } from 'vue';
-
 const videoElement = ref<HTMLVideoElement | null>(null);
 const isWebcamActive = ref(false);
 const stream = ref<MediaStream | null>(null);
