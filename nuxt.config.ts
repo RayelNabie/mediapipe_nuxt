@@ -18,11 +18,21 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxt/scripts',
     '@nuxt/test-utils',
-    '@nuxt/ui',
+    '@primevue/nuxt-module',
     '@pinia/nuxt',
   ],
   devtools: { enabled: true },
   compatibilityDate: '2024-11-01',
+
+  primevue: {
+    autoImport: true,
+    options: {
+      inputVariant: 'filled',
+      theme: {
+        preset: 'vela-light',
+      },
+    },
+  },
 
   eslint: {
     config: {

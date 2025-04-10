@@ -1,66 +1,70 @@
 <template>
-  <nav>
-    <Breadcrumb class="breadcrumb">
-      <BreadcrumbItem
-        v-for="(item, index) in breadcrumbItems"
-        :key="index"
-        class="breadcrumb__item-wrapper"
-      >
-        <NuxtLink :to="item.to" class="breadcrumb__item">
-          {{ item.label }}
-        </NuxtLink>
-        <span v-if="index < breadcrumbItems.length - 1" class="breadcrumb__separator">></span>
-      </BreadcrumbItem>
+  <nav class="breadcrumb__nav">
+    <Breadcrumb :model="breadcrumbItems" class="breadcrumb">
+      <template #item="{ item }">
+        <router-link v-if="item.to" :to="item.to" class="breadcrumb-item">
+          <span>{{ item.label }}</span>
+        </router-link>
+        <a
+          v-else :href="item.url"
+          :target="item.target"
+          class="breadcrumb-item"
+        >
+          <span>{{ item.label }}</span>
+        </a>
+      </template>
     </Breadcrumb>
   </nav>
 </template>
 
-<script lang="ts" setup>
-const breadcrumbItems = [
+<script setup lang="ts">
+const breadcrumbItems = computed(() => [
   { label: 'Home', to: '/' },
   { label: 'Mediapipe', to: '/mediapipe' },
-];
+]);
 </script>
 
 <style lang="scss" scoped>
 .breadcrumb {
   display: flex;
   align-items: center;
-  font-size: 1.125rem;
   margin: 0;
-  padding: 12px;
-  background-color: $light;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  border-radius: 6px;
+  padding: 0;
+  font-size: 1.125rem;
 
-  &__item-wrapper {
-    display: inline-flex;
-    align-items: center;
-    position: relative;
+  &__nav {
+    background-color: $light;
+    padding: 10px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba($dark-gray, 0.1);
+    margin: 20px 0;
   }
 
   &__item {
-    color: $primary;
-    cursor: pointer;
-    padding: 6px 10px;
-    border-radius: 4px;
+    color: $dark-gray;
+    text-decoration: none;
     font-weight: 500;
-    text-transform: capitalize;
-    transition: color 0.3s ease, background-color 0.3s ease;
+    padding: 0 10px;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+    display: flex;
+    align-items: center;
 
     &:hover {
+      color: $hover;
+      border-radius: 8px;
+    }
+
+    &:not(:last-child)::after {
+      content: '|';
+      margin: 0 10px;
       color: $white;
-      background-color: $secondary;
-      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+
+    &__item span {
+      color: inherit;
     }
   }
-
-  .breadcrumb__separator {
-    margin: 0 8px;
-    color: $gray;
-    font-size: 1.5rem;
-    font-weight: bold;
-    opacity: 0.8;
-  }
-};
+}
 </style>

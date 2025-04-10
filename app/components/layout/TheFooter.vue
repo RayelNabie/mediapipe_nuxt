@@ -1,27 +1,41 @@
 <template>
   <footer id="footer" class="footer">
     <div class="footer__items">
-      <a>Privacy Policy</a>
-      <a>Terms and Conditions</a>
-      <a>Made by Rayel</a>
+      <Button label="Privacy Policy" class="footer__link" />
+      <Button label="Terms and Conditions" class="footer__link" />
+      <Button label="Made by Rayel" class="footer__link" />
     </div>
   </footer>
 </template>
 
-<script lang="ts">
-
-</script>
-
 <style lang="scss" scoped>
 .footer {
-  background: $gray;
-  color: $primary;
+  background-color: #f4f4f4;
+  color: #007bff;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
+  padding: 1rem 2rem;
 
   &__items {
-    padding: 2px;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  &__link {
+    background: transparent;
+    border: none;
+    color: #007bff;
+    text-transform: uppercase;
+    font-weight: 500;
+    padding: 0;
+    cursor: pointer;
+
+    &:hover {
+      color: #0056b3;
+      text-decoration: underline;
+    }
   }
 }
 </style>
