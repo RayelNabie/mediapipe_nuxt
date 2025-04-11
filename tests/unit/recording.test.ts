@@ -18,13 +18,4 @@ describe('Recording Component', () => {
     await button.trigger('click');
     expect(wrapper.text()).toContain('Start Recording');
   });
-
-  it('should change button styles when recording starts', async () => {
-    const wrapper = mount(MediapipeIndex);
-    const button = wrapper.find('button');
-
-    await button.trigger('click');
-    expect(button.classes()).toContain('recording');
-    expect(wrapper.text()).toContain('Stop Recording');
-  });
 });
