@@ -20,6 +20,7 @@ export default defineNuxtConfig({
     '@nuxt/test-utils',
     '@primevue/nuxt-module',
     '@pinia/nuxt',
+    '@nuxt/test-utils/module',
   ],
   devtools: { enabled: true },
   compatibilityDate: '2024-11-01',
