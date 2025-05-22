@@ -21,14 +21,13 @@ describe('Webcam.vue', () => {
   it('roept usePoseRenderer aan en emit "video-ready"', async () => {
     const fakePoseData = { pose: 'mocked' };
 
-    // Zorg dat de mock ook een callback triggert
     (usePoseRenderer as ReturnType<typeof vi.fn>).mockImplementation((video, canvas, callback) => {
       callback(fakePoseData);
     });
 
     const wrapper = mount(BaseWebcam);
 
-    await new Promise(resolve => setTimeout(resolve, 0)); // Laat watchEffect triggeren
+    await new Promise(resolve => setTimeout(resolve, 0));
 
     expect(usePoseRenderer).toHaveBeenCalledOnce();
     expect(wrapper.emitted('video-ready')).toBeTruthy();

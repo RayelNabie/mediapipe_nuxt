@@ -25,6 +25,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   compatibilityDate: '2024-11-01',
 
+  css: ['@/assets/scss/app.scss'],
   primevue: {
     autoImport: true,
     options: {
