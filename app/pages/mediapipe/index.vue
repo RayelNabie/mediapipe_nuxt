@@ -5,18 +5,10 @@
         <h1>Pose Detection & Hand Tracking</h1>
         <h2>5 Seconds Pose Recording & Tracking Your Hand Movements</h2>
         <div class="buttons-container">
-          <button
-            class="record-button start-recording"
-            :disabled="isRecording"
-            @click="startRecording"
-          >
+          <button class="record-button start-recording" :disabled="isRecording" @click="startRecording">
             <span class="pi pi-play" /> Start Recording
           </button>
-          <button
-            class="record-button stop-recording"
-            :disabled="!isRecording"
-            @click="stopRecording"
-          >
+          <button class="record-button stop-recording" :disabled="!isRecording" @click="stopRecording">
             <span class="pi pi-stop" /> Stop Recording
           </button>
         </div>
@@ -130,7 +122,7 @@ const stopRecording = () => {
     }
 
     &:hover {
-      background-color: darken($primary, 10%);
+      background-color: color.scale($primary, $lightness: -10%);
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     }
 
